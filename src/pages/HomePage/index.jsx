@@ -1,23 +1,46 @@
 import './style.css';
+import { useState } from 'react';
 
 export const HomePage = () => {
+  const [countDislike, setCountDislike] = useState(0);
+  const [countLike, setCountLike] = useState(0);
   return (
     <div className="container">
-      <header>
-        <div className="logo" />
-        <h1>React webová aplikace</h1>
-      </header>
-      <main>
-        <p>
-          Startovací šablona pro webovou aplikaci v Reactu. Vytvořeno pomocí
-          {" "}
-          <a href="https://www.npmjs.com/package/create-czechitas-app">create-czechitas-app</a>
-          .
-        </p>
-      </main>
-      <footer>
-        <p>Czechitas, Digitální akademie: Web</p>
-      </footer>
+      <div className="joke">
+        <div className="joke__body">
+          <div className="joke__user">
+            <img
+              className="user-avatar"
+              src="https://raw.githubusercontent.com/Czechitas-podklady-WEB/dadjokes/main/users/user01.png"
+            />
+            <p className="user-name">Neroxx</p>
+          </div>
+
+          <p className="joke__text">
+            The secret service isn't allowed to yell "Get down!" anymore when
+            the president is about to be attacked. Now they have to yell
+            "Donald, duck!"
+          </p>
+        </div>
+        <div className="joke__likes">
+          <button
+            onClick={() => setCountLike(countLike + 1)}
+            id="btn-up"
+            className="btn-like btn-like--up"
+          ></button>
+          <span id="likes-up" className="likes-count likes-count--up">
+            {countLike}
+          </span>
+          <button
+            onClick={() => setCountDislike(countDislike + 1)}
+            id="btn-down"
+            className="btn-like btn-like--down"
+          ></button>
+          <span id="likes-down" className="likes-count likes-count--down">
+            {countDislike}
+          </span>
+        </div>
+      </div>
     </div>
   );
 };
