@@ -1,46 +1,33 @@
 import './style.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Jokes } from '../../components/Jokes/jokes';
 
 export const HomePage = () => {
-  const [countDislike, setCountDislike] = useState(0);
-  const [countLike, setCountLike] = useState(0);
+  const [jokes, setJokes] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch('http://localhost:4000/api/jokes');
+      const data = await response.json();
+      console.log(data.result);
+      setJokes(data.result);
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className="container">
-      <div className="joke">
-        <div className="joke__body">
-          <div className="joke__user">
-            <img
-              className="user-avatar"
-              src="https://raw.githubusercontent.com/Czechitas-podklady-WEB/dadjokes/main/users/user01.png"
-            />
-            <p className="user-name">Neroxx</p>
-          </div>
-
-          <p className="joke__text">
-            The secret service isn't allowed to yell "Get down!" anymore when
-            the president is about to be attacked. Now they have to yell
-            "Donald, duck!"
-          </p>
-        </div>
-        <div className="joke__likes">
-          <button
-            onClick={() => setCountLike(countLike + 1)}
-            id="btn-up"
-            className="btn-like btn-like--up"
-          ></button>
-          <span id="likes-up" className="likes-count likes-count--up">
-            {countLike}
-          </span>
-          <button
-            onClick={() => setCountDislike(countDislike + 1)}
-            id="btn-down"
-            className="btn-like btn-like--down"
-          ></button>
-          <span id="likes-down" className="likes-count likes-count--down">
-            {countDislike}
-          </span>
-        </div>
-      </div>
+      {jokes.map((j) => (
+        <Jokes
+          key={j.id}
+          id={j.id}
+          userAvatar={j.avatar}
+          name={j.name}
+          text={j.text}
+          likes={j.likes}
+          dislikes={j.dislikes}
+        />
+      ))}
     </div>
   );
 };
